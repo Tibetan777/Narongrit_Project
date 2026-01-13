@@ -5,7 +5,6 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import About from './screens/About';
-
 const Stack = createStackNavigator();
 
 const App = () => {
