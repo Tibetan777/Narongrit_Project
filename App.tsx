@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import About from './screens/About';
 
 const Stack = createStackNavigator();
 
@@ -26,9 +27,13 @@ const App = () => {
           component={ForgotPasswordScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="About"
+          component={About}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
 export default App;
