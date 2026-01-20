@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react/no-unstable-nested-components */
+import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,6 +10,8 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import ListMember from './screens/ListMember';
 import Profile from './screens/Profile';
 import About from './screens/About';
+import { AuthContext, AuthContextType } from './context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,7 +24,7 @@ const App = () => {
         initialRouteName="ListMember"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+            let iconName: string = 'help';
             if (route.name === 'ListMember') {
               iconName = focused ? 'man' : 'man-outline';
             } else if (route.name === 'Profile') {
@@ -85,26 +88,48 @@ const App = () => {
       />
     </AuthStack.Navigator>
   );
+  const [authState, setAuthState] = useState({
+    user: '',
+    signedIn: false,
+  });
+  const getLogin = async () => {
+    AsyncStorage.getItem('Logined').then(value => {
+      if (value != null) {
+        setAuthState({
+          user: value,
+          signedIn: true,
+        });
+      }
+    });
+  };
+  useEffect(() => {
+  getLogin();
+  }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="HomeTabs">
-        <Stack.Screen
-          name="AuthStackScreen"
-          component={AuthStackScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="HomeTabs"
-          component={HomeTabs}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthContext.Provider value={[authState, setAuthState] as AuthContextType}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {authState.signedIn === false ? (
+            <Stack.Screen
+              name="AuthStackScreen"
+              component={AuthStackScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+          ) : (
+            <Stack.Screen
+              name="HomeTabs"
+              component={HomeTabs}
+              options={{
+                headerShown: false,
+              }}
+            />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 };
 
