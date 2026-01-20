@@ -1,10 +1,22 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '../AuthStyles';
+import {AuthContext} from '../context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const About = () => {
-  return (
+  const [, setAuthState] = useContext(AuthContext);
+  const userlogout = async () => {
+    setAuthState({
+      user: '',
+      signedIn: false,
+    });
+    AsyncStorage.removeItem('Logined');
+  };
+    return (
     <View style={styles.container}>
-      <Text style={styles.title}>About</Text>
+      <TouchableOpacity style={styles.button} onPress={userlogout}>
+        <Text style={styles.buttonText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 };
