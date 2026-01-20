@@ -12,6 +12,7 @@ import Profile from './screens/Profile';
 import About from './screens/About';
 import { AuthContext, AuthContextType } from './context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Log from './screens/Log';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,6 +32,8 @@ const App = () => {
               iconName = focused ? 'person' : 'person-outline';
             } else if (route.name === 'About') {
               iconName = focused ? 'aperture' : 'aperture-outline';
+            } else if (route.name === 'Log') {
+              iconName = focused ? 'log' : 'log-outline';
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
@@ -57,6 +60,13 @@ const App = () => {
           component={About}
           options={{
             title: 'About',
+          }}
+        />
+         <Tab.Screen
+          name="Log"
+          component={Log}
+          options={{
+            title: 'Log',
           }}
         />
       </Tab.Navigator>
