@@ -10,9 +10,9 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import ListMember from './screens/ListMember';
 import Profile from './screens/Profile';
 import About from './screens/About';
+import Log from './screens/Log';
 import { AuthContext, AuthContextType } from './context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Log from './screens/Log';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,7 +33,7 @@ const App = () => {
             } else if (route.name === 'About') {
               iconName = focused ? 'aperture' : 'aperture-outline';
             } else if (route.name === 'Log') {
-              iconName = focused ? 'log' : 'log-outline';
+              iconName = focused ? 'document-text' : 'document-text-outline';
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
